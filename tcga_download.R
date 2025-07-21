@@ -14,22 +14,21 @@ GDCdownload(query, method = "api")
 main_dir <- file.path("GDCdata", project_name)
 # Get file list of downloaded files
 file_list <- file.path("GDCdata", project_name,list.files(main_dir,recursive = TRUE))  
+#retrieving all data for one sample
 test_tab <- read.table(file = file_list[1], sep = '\t', header = TRUE)
-# Delete header lines that don't contain usefull information
+# the first four header lines are empty, then remove
 test_tab <- test_tab[-c(1:4),]
-# STAR counts and tpm datasets
+# STAR counts 
 count_data_frame <- data.frame(test_tab[,1])
 
 # Append cycle to get the complete matrix
 for (x in c(1:length(file_list))) {
   # Read table
   test_tab <- read.table(file = file_list[x], sep = '\t', header = TRUE)
-  # Delete not useful lines
+  # as above
   test_tab <- test_tab[-c(1:4),]
-  # Column bind of tpm and counts data
-  count_data_frame <- cbind(count_data_frame, test_tab[,4]) # 4 refers to the location where count present 
-  # Print progres from 0 to 1
-  print(i/length(file_list))
+  count_data_frame <- cbind(count_data_frame, test_tab[,4]) 
+  # 4 refers to the location where count present 
 }
 
 
