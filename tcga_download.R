@@ -10,8 +10,10 @@ query <- GDCquery(project = project_name,
 
 metadata <- query[[1]][[1]]
 GDCdownload(query, method = "api")
+# Get main directory where data is stored
 main_dir <- file.path("GDCdata", project_name)
-file_list <- file.path("GDCdata", project_name,list.files(main_dir,recursive = TRUE)) 
+# Get file list of downloaded files
+file_list <- file.path("GDCdata", project_name,list.files(main_dir,recursive = TRUE))  
 test_tab <- read.table(file = file_list[1], sep = '\t', header = TRUE)
 # Delete header lines that don't contain usefull information
 test_tab <- test_tab[-c(1:4),]
